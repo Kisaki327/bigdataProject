@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PlayersMapper">
+
+    <resultMap type="Players" id="PlayersResult">
+        <result property="playerId"    column="playerId"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="birthDate"    column="birthDate"    />
+        <result property="country"    column="country"    />
+        <result property="displayName"    column="displayName"    />
+        <result property="draftSeason"    column="draftSeason"    />
+        <result property="experience"    column="experience"    />
+        <result property="firstName"    column="firstName"    />
+        <result property="firstNameEn"    column="firstNameEn"    />
+        <result property="halfPhotoBig"    column="halfPhotoBig"    />
+        <result property="height"    column="height"    />
+        <result property="heightMetric"    column="heightMetric"    />
+        <result property="jerseyNo"    column="jerseyNo"    />
+        <result property="lastName"    column="lastName"    />
+        <result property="lastNameEn"    column="lastNameEn"    />
+        <result property="playerCode"    column="playerCode"    />
+        <result property="position"    column="position"    />
+        <result property="retireYear"    column="retireYear"    />
+        <result property="rookieSeason"    column="rookieSeason"    />
+        <result property="school"    column="school"    />
+        <result property="season"    column="season"    />
+        <result property="startYear"    column="startYear"    />
+        <result property="teamAbbr"    column="teamAbbr"    />
+        <result property="teamCity"    column="teamCity"    />
+        <result property="teamId"    column="teamId"    />
+        <result property="teamLogoDark"    column="teamLogoDark"    />
+        <result property="teamLogoLight"    column="teamLogoLight"    />
+        <result property="teamName"    column="teamName"    />
+        <result property="weight"    column="weight"    />
+        <result property="weightMetric"    column="weightMetric"    />
+    </resultMap>
+
+    <sql id="selectPlayersVo">
+        select playerId, avatar, birthDate, country, displayName, draftSeason, experience, firstName, firstNameEn, halfPhotoBig, height, heightMetric, jerseyNo, lastName, lastNameEn, playerCode, position, retireYear, rookieSeason, school, season, startYear, teamAbbr, teamCity, teamId, teamLogoDark, teamLogoLight, teamName, weight, weightMetric from players
+    </sql>
+
+    <select id="selectPlayersList" parameterType="Players" resultMap="PlayersResult">
+        <include refid="selectPlayersVo"/>
+        <where>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="birthDate != null "> and birthDate = #{birthDate}</if>
+            <if test="country != null  and country != ''"> and country = #{country}</if>
+            <if test="displayName != null  and displayName != ''"> and displayName like concat('%', #{displayName}, '%')</if>
+            <if test="draftSeason != null "> and draftSeason = #{draftSeason}</if>
+            <if test="experience != null  and experience != ''"> and experience = #{experience}</if>
+            <if test="firstName != null  and firstName != ''"> and firstName like concat('%', #{firstName}, '%')</if>
+            <if test="firstNameEn != null  and firstNameEn != ''"> and firstNameEn = #{firstNameEn}</if>
+            <if test="halfPhotoBig != null  and halfPhotoBig != ''"> and halfPhotoBig = #{halfPhotoBig}</if>
+            <if test="height != null  and height != ''"> and height = #{height}</if>
+            <if test="heightMetric != null  and heightMetric != ''"> and heightMetric = #{heightMetric}</if>
+            <if test="jerseyNo != null  and jerseyNo != ''"> and jerseyNo = #{jerseyNo}</if>
+            <if test="lastName != null  and lastName != ''"> and lastName like concat('%', #{lastName}, '%')</if>
+            <if test="lastNameEn != null  and lastNameEn != ''"> and lastNameEn = #{lastNameEn}</if>
+            <if test="playerCode != null  and playerCode != ''"> and playerCode = #{playerCode}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="retireYear != null "> and retireYear = #{retireYear}</if>
+            <if test="rookieSeason != null "> and rookieSeason = #{rookieSeason}</if>
+            <if test="school != null  and school != ''"> and school = #{school}</if>
+            <if test="season != null "> and season = #{season}</if>
+            <if test="startYear != null "> and startYear = #{startYear}</if>
+            <if test="teamAbbr != null  and teamAbbr != ''"> and teamAbbr = #{teamAbbr}</if>
+            <if test="teamCity != null  and teamCity != ''"> and teamCity = #{teamCity}</if>
+            <if test="teamId != null "> and teamId = #{teamId}</if>
+            <if test="teamLogoDark != null  and teamLogoDark != ''"> and teamLogoDark = #{teamLogoDark}</if>
+            <if test="teamLogoLight != null  and teamLogoLight != ''"> and teamLogoLight = #{teamLogoLight}</if>
+            <if test="teamName != null  and teamName != ''"> and teamName like concat('%', #{teamName}, '%')</if>
+            <if test="weight != null  and weight != ''"> and weight = #{weight}</if>
+            <if test="weightMetric != null  and weightMetric != ''"> and weightMetric = #{weightMetric}</if>
+        </where>
+    </select>
+
+    <select id="selectPlayersByPlayerId" parameterType="Long" resultMap="PlayersResult">
+        <include refid="selectPlayersVo"/>
+        where playerId = #{playerId}
+    </select>
+
+    <insert id="insertPlayers" parameterType="Players">
+        insert into players
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="playerId != null">playerId,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="birthDate != null">birthDate,</if>
+            <if test="country != null">country,</if>
+            <if test="displayName != null">displayName,</if>
+            <if test="draftSeason != null">draftSeason,</if>
+            <if test="experience != null">experience,</if>
+            <if test="firstName != null">firstName,</if>
+            <if test="firstNameEn != null">firstNameEn,</if>
+            <if test="halfPhotoBig != null">halfPhotoBig,</if>
+            <if test="height != null">height,</if>
+            <if test="heightMetric != null">heightMetric,</if>
+            <if test="jerseyNo != null">jerseyNo,</if>
+            <if test="lastName != null">lastName,</if>
+            <if test="lastNameEn != null">lastNameEn,</if>
+            <if test="playerCode != null">playerCode,</if>
+            <if test="position != null">position,</if>
+            <if test="retireYear != null">retireYear,</if>
+            <if test="rookieSeason != null">rookieSeason,</if>
+            <if test="school != null">school,</if>
+            <if test="season != null">season,</if>
+            <if test="startYear != null">startYear,</if>
+            <if test="teamAbbr != null">teamAbbr,</if>
+            <if test="teamCity != null">teamCity,</if>
+            <if test="teamId != null">teamId,</if>
+            <if test="teamLogoDark != null">teamLogoDark,</if>
+            <if test="teamLogoLight != null">teamLogoLight,</if>
+            <if test="teamName != null">teamName,</if>
+            <if test="weight != null">weight,</if>
+            <if test="weightMetric != null">weightMetric,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="playerId != null">#{playerId},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="birthDate != null">#{birthDate},</if>
+            <if test="country != null">#{country},</if>
+            <if test="displayName != null">#{displayName},</if>
+            <if test="draftSeason != null">#{draftSeason},</if>
+            <if test="experience != null">#{experience},</if>
+            <if test="firstName != null">#{firstName},</if>
+            <if test="firstNameEn != null">#{firstNameEn},</if>
+            <if test="halfPhotoBig != null">#{halfPhotoBig},</if>
+            <if test="height != null">#{height},</if>
+            <if test="heightMetric != null">#{heightMetric},</if>
+            <if test="jerseyNo != null">#{jerseyNo},</if>
+            <if test="lastName != null">#{lastName},</if>
+            <if test="lastNameEn != null">#{lastNameEn},</if>
+            <if test="playerCode != null">#{playerCode},</if>
+            <if test="position != null">#{position},</if>
+            <if test="retireYear != null">#{retireYear},</if>
+            <if test="rookieSeason != null">#{rookieSeason},</if>
+            <if test="school != null">#{school},</if>
+            <if test="season != null">#{season},</if>
+            <if test="startYear != null">#{startYear},</if>
+            <if test="teamAbbr != null">#{teamAbbr},</if>
+            <if test="teamCity != null">#{teamCity},</if>
+            <if test="teamId != null">#{teamId},</if>
+            <if test="teamLogoDark != null">#{teamLogoDark},</if>
+            <if test="teamLogoLight != null">#{teamLogoLight},</if>
+            <if test="teamName != null">#{teamName},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="weightMetric != null">#{weightMetric},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlayers" parameterType="Players">
+        update players
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="birthDate != null">birthDate = #{birthDate},</if>
+            <if test="country != null">country = #{country},</if>
+            <if test="displayName != null">displayName = #{displayName},</if>
+            <if test="draftSeason != null">draftSeason = #{draftSeason},</if>
+            <if test="experience != null">experience = #{experience},</if>
+            <if test="firstName != null">firstName = #{firstName},</if>
+            <if test="firstNameEn != null">firstNameEn = #{firstNameEn},</if>
+            <if test="halfPhotoBig != null">halfPhotoBig = #{halfPhotoBig},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="heightMetric != null">heightMetric = #{heightMetric},</if>
+            <if test="jerseyNo != null">jerseyNo = #{jerseyNo},</if>
+            <if test="lastName != null">lastName = #{lastName},</if>
+            <if test="lastNameEn != null">lastNameEn = #{lastNameEn},</if>
+            <if test="playerCode != null">playerCode = #{playerCode},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="retireYear != null">retireYear = #{retireYear},</if>
+            <if test="rookieSeason != null">rookieSeason = #{rookieSeason},</if>
+            <if test="school != null">school = #{school},</if>
+            <if test="season != null">season = #{season},</if>
+            <if test="startYear != null">startYear = #{startYear},</if>
+            <if test="teamAbbr != null">teamAbbr = #{teamAbbr},</if>
+            <if test="teamCity != null">teamCity = #{teamCity},</if>
+            <if test="teamId != null">teamId = #{teamId},</if>
+            <if test="teamLogoDark != null">teamLogoDark = #{teamLogoDark},</if>
+            <if test="teamLogoLight != null">teamLogoLight = #{teamLogoLight},</if>
+            <if test="teamName != null">teamName = #{teamName},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="weightMetric != null">weightMetric = #{weightMetric},</if>
+        </trim>
+        where playerId = #{playerId}
+    </update>
+
+    <delete id="deletePlayersByPlayerId" parameterType="Long">
+        delete from players where playerId = #{playerId}
+    </delete>
+
+    <delete id="deletePlayersByPlayerIds" parameterType="String">
+        delete from players where playerId in
+        <foreach item="playerId" collection="array" open="(" separator="," close=")">
+            #{playerId}
+        </foreach>
+    </delete>
+    <select id="selectCountGroupByTeamCity" resultType="map">
+        SELECT teamCity, COUNT(*) AS count
+        FROM players
+        GROUP BY teamCity
+        ORDER BY count DESC
+    </select>
+    <resultMap id="nbaPlayerSeasonStatsResultMap" type="com.ruoyi.system.domain.NbaPlayerSeasonStats">
+        <id property="id" column="id" />
+        <result property="season" column="Season" />
+        <result property="name" column="name" />
+        <result property="enName" column="lastNameEn" />
+        <result property="playerid" column="Playerid" />
+        <result property="points" column="Points" />
+        <result property="games" column="Games" />
+        <result property="gamesstarted" column="Gamesstarted" />
+        <result property="mins" column="Mins" />
+        <result property="offrebs" column="Offrebs" />
+        <result property="defrebs" column="Defrebs" />
+        <result property="turnovers" column="Turnovers" />
+        <result property="fouls" column="Fouls" />
+        <result property="pointspg" column="Pointspg" />
+        <result property="rebspg" column="Rebspg" />
+        <result property="assistspg" column="Assistspg" />
+        <result property="stealspg" column="Stealspg" />
+        <result property="blockspg" column="Blockspg" />
+        <result property="fgpctStr" column="FgpctStr" />
+        <result property="tppctStr" column="TppctStr" />
+        <result property="ftpctStr" column="FtpctStr" />
+        <result property="per" column="PER" />
+        <result property="avatar" column="avatar" />
+        <result property="logo" column="LogoDark" />
+        <result property="playerAddr" column="position" />
+        <result property="num" column="jerseyNo" />
+    </resultMap>
+    <!-- 公共字段列 -->
+    <sql id="baseColumns">
+    nba_players.lastNameEn,
+    nba_players.avatar,
+    nba_players.position,
+    nba_players.jerseyNo,
+    nba_players.firstNameEn,
+
+    nba_player_season_stats.playerId,
+    nba_player_season_stats.name,
+    nba_player_season_stats.id,
+    nba_player_season_stats.Season,
+    nba_player_season_stats.Points,
+    nba_player_season_stats.Games,
+    nba_player_season_stats.Gamesstarted,
+    nba_player_season_stats.Mins,
+    nba_player_season_stats.Offrebs,
+    nba_player_season_stats.Defrebs,
+    nba_player_season_stats.Turnovers,
+    nba_player_season_stats.Fouls,
+    nba_player_season_stats.Pointspg,
+    nba_player_season_stats.Rebspg,
+    nba_player_season_stats.Assistspg,
+    nba_player_season_stats.Stealspg,
+    nba_player_season_stats.Blockspg,
+    nba_player_season_stats.FgpctStr,
+    nba_player_season_stats.TppctStr,
+    nba_player_season_stats.FtpctStr,
+    nba_player_season_stats.PER,
+
+    player_team_stats.LogoDark,
+    player_team_stats.teamname
+    </sql>
+
+
+    <!-- 主查询方法 -->
+    <select id="getPlayerSeasonStats" resultMap="nbaPlayerSeasonStatsResultMap">
+        SELECT DISTINCT <include refid="baseColumns"/>
+        FROM nba_player_season_stats
+        JOIN nba_players ON nba_players.playerId = nba_player_season_stats.Playerid
+        JOIN player_team_stats ON nba_players.teamId = player_team_stats.Teamid
+        <where>
+            <if test="season != null and season != ''">
+                nba_player_season_stats.Season = #{season}
+            </if>
+            <if test="playerId != null and playerId != ''">
+               and nba_players.playerId = #{playerId}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="playerRace" type="top_10_player">
+        <result property="name" column="name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="points" column="Points"/>
+        <result property="season" column="Season"/>
+    </resultMap>
+
+    <sql id="top10Column" >
+        nba_player_season_stats.name,
+        nba_players.avatar,
+        nba_player_season_stats.Season,
+        nba_player_season_stats.Points,
+        nba_player_season_stats.CareerPoints
+    </sql>
+
+    <select id="getTop10Players" resultMap="playerRace">
+        SELECT DISTINCT <include refid="top10Column"/>
+        FROM nba_player_season_stats
+        JOIN nba_players ON nba_players.playerId = nba_player_season_stats.Playerid
+        <where>
+            <if test="season != null and season != ''">
+                nba_player_season_stats.Season = #{season}
+            </if>
+        </where>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY nba_player_season_stats.CareerPoints DESC
+        </if>
+        <if test="sort == null or sort == ''">
+            ORDER BY nba_player_season_stats.Points DESC
+        </if>
+
+        LIMIT 10
+    </select>
+
+    <resultMap id="playersDist" type="playersDist">
+        <result property="season" column="Season"/>
+        <result property="per" column="PER"/>
+        <result property="pointSpg" column="Pointspg"/>
+    </resultMap>
+
+    <sql id="playersdist" >
+        nba_player_season_stats.Season,
+        nba_player_season_stats.PER,
+        nba_player_season_stats.Pointspg
+    </sql>
+
+    <select id="getPlayerDist" resultMap="playersDist">
+        select <include refid="playersdist"/>
+        from nba_player_season_stats
+        <where>
+            <if test="season != null and season != ''">
+                nba_player_season_stats.Season = #{season}
+            </if>
+        </where>
+    </select>
+
+    <select id="getBestPlayersByPos" resultMap="nbaPlayerSeasonStatsResultMap">
+        select  DISTINCT <include refid="baseColumns"/>
+        from nba_player_season_stats
+        JOIN nba_players ON nba_players.playerId = nba_player_season_stats.Playerid
+        JOIN player_team_stats ON nba_players.teamId = player_team_stats.Teamid
+        <where>
+            <if test="season != null and season != ''">
+                nba_player_season_stats.Season = #{season}
+            </if>
+            <if test="pos != null and pos != ''">
+                AND nba_players.position like concat(#{pos},'%')
+            </if>
+        </where>
+        order by nba_player_season_stats.Points DESC
+        limit 5
+    </select>
+
+    <!--  球员数据预测相关  -->
+    <resultMap id="PlayerStatsResultMap" type="playerStats">
+        <result property="dataType" column="dataType"/>
+        <result property="playerid" column="Playerid"/>
+        <result property="firstName" column="firstName"/>
+        <result property="lastName" column="lastName"/>
+        <result property="firstNameEn" column="firstNameEn"/>
+        <result property="lastNameEn" column="lastNameEn"/>
+        <result property="teamname" column="teamname"/>
+        <result property="avatar" column="avatar"/>
+        <result property="logo" column="LogoDark"/>
+        <result property="assists" column="Assists"/>
+        <result property="fga" column="Fga"/>
+        <result property="fgpctStr" column="FgpctStr"/>
+        <result property="mins" column="Mins"/>
+        <result property="points" column="Points"/>
+        <result property="rebs" column="Rebs"/>
+        <result property="steals" column="Steals"/>
+        <result property="tpa" column="Tpa"/>
+        <result property="tppctStr" column="TppctStr"/>
+    </resultMap>
+
+    <sql id="predictData">
+        nba_players.playerId,
+        nba_players.firstName,
+        nba_players.lastName,
+        nba_players.firstNameEn,
+        nba_players.lastNameEn,
+        nba_players.avatar,
+        player_team_stats.teamname,
+        player_team_stats.LogoDark,
+        pre_session.Tpa,
+        pre_session.TppctStr,
+        pre_session.Steals,
+        pre_session.Rebs,
+        pre_session.Points,
+        pre_session.Mins,
+        pre_session.FgpctStr,
+        pre_session.Fga,
+        pre_session.Assists,
+    </sql>
+
+
+    <sql id="srcData">
+        nba_players.playerId,
+        nba_players.firstName,
+        nba_players.lastName,
+        nba_players.firstNameEn,
+        nba_players.lastNameEn,
+        nba_players.avatar,
+        player_team_stats.teamname,
+        player_team_stats.LogoDark,
+        nba_game_stats.Tpa,
+        nba_game_stats.TppctStr,
+        nba_game_stats.Steals,
+        nba_game_stats.Rebs,
+        nba_game_stats.Points,
+        nba_game_stats.Mins,
+        nba_game_stats.FgpctStr,
+        nba_game_stats.Fga,
+        nba_game_stats.Assists,
+    </sql>
+
+    <select id="getPlayerGamesStats" resultMap="PlayerStatsResultMap">
+        select DISTINCT <include refid="srcData"/> 1 AS dataType
+        from nba_game_stats
+        JOIN nba_players ON nba_players.playerId = nba_game_stats.Playerid
+        JOIN player_team_stats ON nba_players.teamId = player_team_stats.Teamid
+        UNION
+        select DISTINCT <include refid="predictData"/> 0 AS dataType
+        from pre_session
+        JOIN nba_players ON nba_players.playerId = pre_session.Playerid
+        JOIN player_team_stats ON nba_players.teamId = player_team_stats.Teamid
+    </select>
+
+</mapper>

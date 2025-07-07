@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PlayersMapper">
+
+        <resultMap id="nbaPlayerSeasonStatsResultMap" type="com.ruoyi.system.domain.NbaPlayerSeasonStats">
+            <id property="id" column="id" />
+            <result property="season" column="Season" />
+            <result property="name" column="name" />
+            <result property="enName" column="lastNameEn" />
+            <result property="playerid" column="Playerid" />
+            <result property="points" column="Points" />
+            <result property="games" column="Games" />
+            <result property="gamesstarted" column="Gamesstarted" />
+            <result property="mins" column="Mins" />
+            <result property="offrebs" column="Offrebs" />
+            <result property="defrebs" column="Defrebs" />
+            <result property="turnovers" column="Turnovers" />
+            <result property="fouls" column="Fouls" />
+            <result property="pointspg" column="Pointspg" />
+            <result property="rebspg" column="Rebspg" />
+            <result property="assistspg" column="Assistspg" />
+            <result property="stealspg" column="Stealspg" />
+            <result property="blockspg" column="Blockspg" />
+            <result property="fgpctStr" column="FgpctStr" />
+            <result property="tppctStr" column="TppctStr" />
+            <result property="ftpctStr" column="FtpctStr" />
+            <result property="per" column="PER" />
+            <result property="avatar" column="avatar" />
+            <result property="logo" column="LogoDark" />
+            <result property="playerAddr" column="position" />
+            <result property="num" column="jerseyNo" />
+        </resultMap>
+    <!-- 公共字段列 -->
+    <sql id="baseColumns">
+    nba_players.lastNameEn,
+    nba_players.avatar,
+    nba_players.position,
+    nba_players.jerseyNo,
+
+    nba_player_season_stats.playerId,
+    nba_player_season_stats.name,
+    nba_player_season_stats.id,
+    nba_player_season_stats.Season,
+    nba_player_season_stats.Points,
+    nba_player_season_stats.Games,
+    nba_player_season_stats.Gamesstarted,
+    nba_player_season_stats.Mins,
+    nba_player_season_stats.Offrebs,
+    nba_player_season_stats.Defrebs,
+    nba_player_season_stats.Turnovers,
+    nba_player_season_stats.Fouls,
+    nba_player_season_stats.Pointspg,
+    nba_player_season_stats.Rebspg,
+    nba_player_season_stats.Assistspg,
+    nba_player_season_stats.Stealspg,
+    nba_player_season_stats.Blockspg,
+    nba_player_season_stats.FgpctStr,
+    nba_player_season_stats.TppctStr,
+    nba_player_season_stats.FtpctStr,
+    nba_player_season_stats.PER,
+
+    player_team_stats.LogoDark
+    </sql>
+
+
+    <!-- 主查询方法 -->
+    <select id="getPlayerSeasonStats" resultMap="nbaPlayerSeasonStatsResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM nba_player_season_stats
+        JOIN nba_players ON nba_players.playerId = nba_player_season_stats.Playerid
+        JOIN player_team_stats ON nba_players.teamId = player_team_stats.Teamid
+        <where>
+            <if test="season != null and season != ''">
+                nba_player_season_stats.Season = #{season}
+            </if>
+            <if test="playerId != null and playerId != ''">
+                nba_players.playerId = #{playerId}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PlayerTeamStatsMapper">
+    
+    <resultMap type="PlayerTeamStats" id="PlayerTeamStatsResult">
+        <result property="id"    column="id"    />
+        <result property="Season"    column="Season"    />
+        <result property="Teamid"    column="Teamid"    />
+        <result property="LogoDark"    column="LogoDark"    />
+        <result property="LogoLight"    column="LogoLight"    />
+        <result property="teamname"    column="teamname"    />
+        <result property="Games"    column="Games"    />
+        <result property="Gamesstarted"    column="Gamesstarted"    />
+        <result property="Mins"    column="Mins"    />
+        <result property="Pointspg"    column="Pointspg"    />
+        <result property="Rebspg"    column="Rebspg"    />
+        <result property="Assistspg"    column="Assistspg"    />
+        <result property="Stealspg"    column="Stealspg"    />
+        <result property="Blockspg"    column="Blockspg"    />
+        <result property="FgpctStr"    column="FgpctStr"    />
+        <result property="TppctStr"    column="TppctStr"    />
+        <result property="FtpctStr"    column="FtpctStr"    />
+        <result property="Offrebs"    column="Offrebs"    />
+        <result property="Defrebs"    column="Defrebs"    />
+        <result property="Turnovers"    column="Turnovers"    />
+        <result property="Fouls"    column="Fouls"    />
+    </resultMap>
+
+    <sql id="selectPlayerTeamStatsVo">
+        select id, Season, Teamid, LogoDark, LogoLight, teamname, Games, Gamesstarted, Mins, Pointspg, Rebspg, Assistspg, Stealspg, Blockspg, FgpctStr, TppctStr, FtpctStr, Offrebs, Defrebs, Turnovers, Fouls from player_team_stats
+    </sql>
+
+    <select id="selectPlayerTeamStatsList" parameterType="PlayerTeamStats" resultMap="PlayerTeamStatsResult">
+        <include refid="selectPlayerTeamStatsVo"/>
+        <where>  
+            <if test="Season != null  and Season != ''"> and Season = #{Season}</if>
+            <if test="Teamid != null  and Teamid != ''"> and Teamid = #{Teamid}</if>
+            <if test="LogoDark != null  and LogoDark != ''"> and LogoDark = #{LogoDark}</if>
+            <if test="LogoLight != null  and LogoLight != ''"> and LogoLight = #{LogoLight}</if>
+            <if test="teamname != null  and teamname != ''"> and teamname like concat('%', #{teamname}, '%')</if>
+            <if test="Games != null "> and Games = #{Games}</if>
+            <if test="Gamesstarted != null "> and Gamesstarted = #{Gamesstarted}</if>
+            <if test="Mins != null "> and Mins = #{Mins}</if>
+            <if test="Pointspg != null "> and Pointspg = #{Pointspg}</if>
+            <if test="Rebspg != null "> and Rebspg = #{Rebspg}</if>
+            <if test="Assistspg != null "> and Assistspg = #{Assistspg}</if>
+            <if test="Stealspg != null "> and Stealspg = #{Stealspg}</if>
+            <if test="Blockspg != null "> and Blockspg = #{Blockspg}</if>
+            <if test="FgpctStr != null  and FgpctStr != ''"> and FgpctStr = #{FgpctStr}</if>
+            <if test="TppctStr != null  and TppctStr != ''"> and TppctStr = #{TppctStr}</if>
+            <if test="FtpctStr != null  and FtpctStr != ''"> and FtpctStr = #{FtpctStr}</if>
+            <if test="Offrebs != null "> and Offrebs = #{Offrebs}</if>
+            <if test="Defrebs != null "> and Defrebs = #{Defrebs}</if>
+            <if test="Turnovers != null "> and Turnovers = #{Turnovers}</if>
+            <if test="Fouls != null "> and Fouls = #{Fouls}</if>
+        </where>
+    </select>
+    
+    <select id="selectPlayerTeamStatsById" parameterType="Long" resultMap="PlayerTeamStatsResult">
+        <include refid="selectPlayerTeamStatsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPlayerTeamStats" parameterType="PlayerTeamStats" useGeneratedKeys="true" keyProperty="id">
+        insert into player_team_stats
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="Season != null and Season != ''">Season,</if>
+            <if test="Teamid != null and Teamid != ''">Teamid,</if>
+            <if test="LogoDark != null">LogoDark,</if>
+            <if test="LogoLight != null">LogoLight,</if>
+            <if test="teamname != null and teamname != ''">teamname,</if>
+            <if test="Games != null">Games,</if>
+            <if test="Gamesstarted != null">Gamesstarted,</if>
+            <if test="Mins != null">Mins,</if>
+            <if test="Pointspg != null">Pointspg,</if>
+            <if test="Rebspg != null">Rebspg,</if>
+            <if test="Assistspg != null">Assistspg,</if>
+            <if test="Stealspg != null">Stealspg,</if>
+            <if test="Blockspg != null">Blockspg,</if>
+            <if test="FgpctStr != null">FgpctStr,</if>
+            <if test="TppctStr != null">TppctStr,</if>
+            <if test="FtpctStr != null">FtpctStr,</if>
+            <if test="Offrebs != null">Offrebs,</if>
+            <if test="Defrebs != null">Defrebs,</if>
+            <if test="Turnovers != null">Turnovers,</if>
+            <if test="Fouls != null">Fouls,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="Season != null and Season != ''">#{Season},</if>
+            <if test="Teamid != null and Teamid != ''">#{Teamid},</if>
+            <if test="LogoDark != null">#{LogoDark},</if>
+            <if test="LogoLight != null">#{LogoLight},</if>
+            <if test="teamname != null and teamname != ''">#{teamname},</if>
+            <if test="Games != null">#{Games},</if>
+            <if test="Gamesstarted != null">#{Gamesstarted},</if>
+            <if test="Mins != null">#{Mins},</if>
+            <if test="Pointspg != null">#{Pointspg},</if>
+            <if test="Rebspg != null">#{Rebspg},</if>
+            <if test="Assistspg != null">#{Assistspg},</if>
+            <if test="Stealspg != null">#{Stealspg},</if>
+            <if test="Blockspg != null">#{Blockspg},</if>
+            <if test="FgpctStr != null">#{FgpctStr},</if>
+            <if test="TppctStr != null">#{TppctStr},</if>
+            <if test="FtpctStr != null">#{FtpctStr},</if>
+            <if test="Offrebs != null">#{Offrebs},</if>
+            <if test="Defrebs != null">#{Defrebs},</if>
+            <if test="Turnovers != null">#{Turnovers},</if>
+            <if test="Fouls != null">#{Fouls},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlayerTeamStats" parameterType="PlayerTeamStats">
+        update player_team_stats
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="Season != null and Season != ''">Season = #{Season},</if>
+            <if test="Teamid != null and Teamid != ''">Teamid = #{Teamid},</if>
+            <if test="LogoDark != null">LogoDark = #{LogoDark},</if>
+            <if test="LogoLight != null">LogoLight = #{LogoLight},</if>
+            <if test="teamname != null and teamname != ''">teamname = #{teamname},</if>
+            <if test="Games != null">Games = #{Games},</if>
+            <if test="Gamesstarted != null">Gamesstarted = #{Gamesstarted},</if>
+            <if test="Mins != null">Mins = #{Mins},</if>
+            <if test="Pointspg != null">Pointspg = #{Pointspg},</if>
+            <if test="Rebspg != null">Rebspg = #{Rebspg},</if>
+            <if test="Assistspg != null">Assistspg = #{Assistspg},</if>
+            <if test="Stealspg != null">Stealspg = #{Stealspg},</if>
+            <if test="Blockspg != null">Blockspg = #{Blockspg},</if>
+            <if test="FgpctStr != null">FgpctStr = #{FgpctStr},</if>
+            <if test="TppctStr != null">TppctStr = #{TppctStr},</if>
+            <if test="FtpctStr != null">FtpctStr = #{FtpctStr},</if>
+            <if test="Offrebs != null">Offrebs = #{Offrebs},</if>
+            <if test="Defrebs != null">Defrebs = #{Defrebs},</if>
+            <if test="Turnovers != null">Turnovers = #{Turnovers},</if>
+            <if test="Fouls != null">Fouls = #{Fouls},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlayerTeamStatsById" parameterType="Long">
+        delete from player_team_stats where id = #{id}
+    </delete>
+
+    <delete id="deletePlayerTeamStatsByIds" parameterType="String">
+        delete from player_team_stats where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <resultMap type="TeamStatsVO" id="TeamStatsResult">
+        <result property="season"    column="Season"    />
+        <result property="teamid"    column="Teamid"    />
+        <result property="logoDark"    column="LogoDark"    />
+        <result property="teamname"    column="teamname"    />
+        <result property="pointspg"    column="Pointspg"    />
+        <result property="rebspg"    column="Rebspg"    />
+        <result property="assistspg"    column="Assistspg"    />
+        <result property="stealspg"    column="Stealspg"    />
+        <result property="blockspg"    column="Blockspg"    />
+        <result property="fgpctStr"    column="FgpctStr"    />
+        <result property="tppctStr"    column="TppctStr"    />
+        <result property="ftpctStr"    column="FtpctStr"    />
+        <result property="offrebs"    column="Offrebs"    />
+        <result property="defrebs"    column="Defrebs"    />
+        <result property="turnovers"    column="Turnovers"    />
+        <result property="fouls"    column="Fouls"    />
+    </resultMap>
+
+    <sql id="baseCol">
+        player_team_stats.Season,
+        player_team_stats.Teamid,
+        player_team_stats.LogoDark,
+        player_team_stats.teamname,
+        player_team_stats.Pointspg,
+        player_team_stats.Rebspg,
+        player_team_stats.Assistspg,
+        player_team_stats.Stealspg,
+        player_team_stats.Blockspg,
+        player_team_stats.FgpctStr,
+        player_team_stats.TppctStr,
+        player_team_stats.FtpctStr,
+        player_team_stats.Offrebs,
+        player_team_stats.Defrebs,
+        player_team_stats.Turnovers,
+        player_team_stats.Fouls
+    </sql>
+
+    <select id="getTeamStats" resultMap="TeamStatsResult">
+        select  <include refid="baseCol"/>
+            from player_team_stats
+        <where>
+            <if test="season != null and season != ''">
+                player_team_stats.Season = #{season}
+            </if>
+        </where>
+    </select>
+</mapper>

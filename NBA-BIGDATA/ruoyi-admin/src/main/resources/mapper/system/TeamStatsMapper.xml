@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TeamStatsMapper">
+    
+    <resultMap type="TeamStats" id="TeamStatsResult">
+        <result property="teamId"    column="teamId"    />
+        <result property="teamName"    column="teamName"    />
+        <result property="avgheightM"    column="avgHeight_m"    />
+        <result property="avgweightKg"    column="avgWeight_kg"    />
+        <result property="avgexperienceYears"    column="avgExperience_years"    />
+        <result property="playerCount"    column="playerCount"    />
+    </resultMap>
+
+    <sql id="selectTeamStatsVo">
+        select teamId, teamName, avgHeight_m, avgWeight_kg, avgExperience_years, playerCount from team_stats
+    </sql>
+
+    <select id="selectTeamStatsList" parameterType="TeamStats" resultMap="TeamStatsResult">
+        <include refid="selectTeamStatsVo"/>
+        <where>  
+            <if test="teamName != null  and teamName != ''"> and teamName like concat('%', #{teamName}, '%')</if>
+            <if test="avgheightM != null "> and avgHeight_m = #{avgheightM}</if>
+            <if test="avgweightKg != null "> and avgWeight_kg = #{avgweightKg}</if>
+            <if test="avgexperienceYears != null "> and avgExperience_years = #{avgexperienceYears}</if>
+            <if test="playerCount != null "> and playerCount = #{playerCount}</if>
+        </where>
+    </select>
+    
+    <select id="selectTeamStatsByTeamId" parameterType="Long" resultMap="TeamStatsResult">
+        <include refid="selectTeamStatsVo"/>
+        where teamId = #{teamId}
+    </select>
+
+    <insert id="insertTeamStats" parameterType="TeamStats">
+        insert into team_stats
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">teamId,</if>
+            <if test="teamName != null and teamName != ''">teamName,</if>
+            <if test="avgheightM != null">avgHeight_m,</if>
+            <if test="avgweightKg != null">avgWeight_kg,</if>
+            <if test="avgexperienceYears != null">avgExperience_years,</if>
+            <if test="playerCount != null">playerCount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">#{teamId},</if>
+            <if test="teamName != null and teamName != ''">#{teamName},</if>
+            <if test="avgheightM != null">#{avgheightM},</if>
+            <if test="avgweightKg != null">#{avgweightKg},</if>
+            <if test="avgexperienceYears != null">#{avgexperienceYears},</if>
+            <if test="playerCount != null">#{playerCount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTeamStats" parameterType="TeamStats">
+        update team_stats
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teamName != null and teamName != ''">teamName = #{teamName},</if>
+            <if test="avgheightM != null">avgHeight_m = #{avgheightM},</if>
+            <if test="avgweightKg != null">avgWeight_kg = #{avgweightKg},</if>
+            <if test="avgexperienceYears != null">avgExperience_years = #{avgexperienceYears},</if>
+            <if test="playerCount != null">playerCount = #{playerCount},</if>
+        </trim>
+        where teamId = #{teamId}
+    </update>
+
+    <delete id="deleteTeamStatsByTeamId" parameterType="Long">
+        delete from team_stats where teamId = #{teamId}
+    </delete>
+
+    <delete id="deleteTeamStatsByTeamIds" parameterType="String">
+        delete from team_stats where teamId in 
+        <foreach item="teamId" collection="array" open="(" separator="," close=")">
+            #{teamId}
+        </foreach>
+    </delete>
+</mapper>
