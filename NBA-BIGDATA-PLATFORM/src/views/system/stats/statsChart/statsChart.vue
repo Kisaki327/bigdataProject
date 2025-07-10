@@ -16,13 +16,9 @@
       <el-switch v-model="isDark" active-text="暗色" inactive-text="亮色" @change="updateCharts" />
     </div>
 
-    <el-row :gutter="20">
-      <el-col v-for="dim in selectedDimensions" :key="dim" :span="12">
-        <div class="chart-container">
-          <div :id="'barChart-' + dim" style="width: 100%; height: 500px;"></div>
+        <div class="chart-container" >
+          <div v-for="dim in selectedDimensions" :key="dim" :id="'barChart-' + dim" class="chart-box"></div>
         </div>
-      </el-col>
-    </el-row>
   </div>
 </template>
 
@@ -101,7 +97,35 @@ export default {
           text: `${this.seasonYear} ${dimInfo.label} 排名前${this.raceNum}`,
           left: 'center',
           textStyle: {
-            color: this.isDark ? '#eee' : '#333'
+            color:  '#ffffff'
+          }
+        },
+        toolbox: {
+          show: true,
+          orient: 'horizontal',
+          left: 'right',
+          top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
           }
         },
         grid: {
@@ -132,7 +156,7 @@ export default {
           axisLabel: {
             formatter: (value, idx) => `{img${idx}|} ${value}`,
             rich,
-            color: this.isDark ? '#ccc' : '#333'
+            color: '#ffffff'
           },
           axisTick: { show: false }
         },
@@ -146,7 +170,7 @@ export default {
           label: {
             show: true,
             position: 'right',
-            color: this.isDark ? '#eee' : '#333'
+            color: '#ffffff'
           }
         }]
       });
@@ -169,9 +193,40 @@ export default {
 
 <style scoped>
 .app-container {
+  min-height: 100vh;
+  background-color: rgba(0, 10, 30, 0.85);
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+                    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+  background-attachment: fixed;
   padding: 20px;
 }
 .chart-container {
-  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  height: calc(90vh - 40px);
+  overflow-y: auto;
+}
+.chart-box {
+  flex: 1 1 calc(50% - 20px);
+  height: 45vh;
+  min-width: 400px;
+  background-color: rgba(10, 10, 30, 0.85);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.12);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.chart-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 </style>

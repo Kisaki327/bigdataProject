@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 20px;">
+    <div class="toolbar">
       <el-select v-model="seasonYear" placeholder="选择赛季" @change="loadData" style="width: 150px;">
         <el-option v-for="year in yearOptions" :key="year" :label="year" :value="year" />
       </el-select>
@@ -13,18 +13,16 @@
     </div>
 
     <el-row :gutter="20">
-      <el-col v-for="dim in selectedDimensions" :key="dim" :span="12">
-        <div class="chart-container">
-          <div :id="'barChart-' + dim" style="width: 100%; height: 500px;"></div>
-        </div>
+      <el-col v-for="dim in selectedDimensions" :key="dim" :span="24">
+          <div :id="'barChart-' + dim" class="chart-box"></div>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import * as echarts from 'echarts';
-import { playerInfo } from '@/api/system/players';
+import * as echarts from 'echarts'
+import { playerInfo } from '@/api/system/players'
 
 export default {
   data() {
@@ -43,79 +41,90 @@ export default {
       selectedDimensions: ['pointspg', 'rebspg'],
       isDark: false,
       chartMap: {}
-    };
+    }
   },
   mounted() {
-    this.loadData();
+    this.loadData()
   },
   methods: {
     async loadData() {
-      const res = await playerInfo(this.seasonYear);
-      this.players = res.data || [];
-      this.updateCharts();
+      const res = await playerInfo(this.seasonYear)
+      this.players = res.data || []
+      this.updateCharts()
     },
-
     updateCharts() {
-      this.selectedDimensions.forEach(dim => this.renderBarChart(dim));
+      this.selectedDimensions.forEach(dim => this.renderBarChart(dim))
     },
-
+    getChartTitle(dimKey) {
+      const dim = this.allDimensions.find(d => d.key === dimKey)
+      return `${this.seasonYear} ${dim.label} 排名前10`
+    },
     renderBarChart(dimKey) {
-      const dimInfo = this.allDimensions.find(d => d.key === dimKey);
+      const dimInfo = this.allDimensions.find(d => d.key === dimKey)
       const sorted = [...this.players]
         .filter(p => p[dimKey] !== undefined && p[dimKey] !== null)
         .sort((a, b) => b[dimKey] - a[dimKey])
-        .slice(0, 10);
+        .slice(0, 10)
 
-      const yAxisData = sorted.map(p => p.name);
-      const rich = {};
-
+      const yAxisData = sorted.map(p => p.name)
+      const rich = {}
       sorted.forEach((p, i) => {
         rich[`img${i}`] = {
           height: 15,
           width: 15,
           align: 'center',
-          backgroundColor: {
-            image: p.avatar
-          }
-        };
-      });
+          backgroundColor: { image: p.avatar }
+        }
+      })
 
-      const chartDom = document.getElementById('barChart-' + dimKey);
-      if (!chartDom) return;
-
-      if (this.chartMap[dimKey]) this.chartMap[dimKey].dispose();
-      const chart = echarts.init(chartDom, this.isDark ? 'dark' : 'light');
-      this.chartMap[dimKey] = chart;
+      const chartDom = document.getElementById('barChart-' + dimKey)
+      if (!chartDom) return
+      if (this.chartMap[dimKey]) this.chartMap[dimKey].dispose()
+      const chart = echarts.init(chartDom, this.isDark ? 'dark' : 'light')
+      this.chartMap[dimKey] = chart
 
       chart.setOption({
-        title: {
-          text: `${this.seasonYear} ${dimInfo.label} 排名前20`,
-          left: 'center',
-          textStyle: {
-            color: this.isDark ? '#eee' : '#333'
+        title: { show: true },
+        toolbox: {
+          show: true,
+          orient: 'horizontal',
+          left: 'right',
+          top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
           }
         },
-        grid: {
-          left: 120,
-          right: 30,
-          top: 50,
-          bottom: 50
-        },
+        grid: { left: 100, right: 20, top: 10, bottom: 30 },
         tooltip: {
           trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          },
+          axisPointer: { type: 'shadow' },
           formatter: params => {
-            const data = params[0].data;
-            return `${data.name}<br/>${dimInfo.label}: ${data.value}`;
+            const data = params[0].data
+            return `${data.name}<br/>${dimInfo.label}: ${data.value}`
           }
         },
         xAxis: {
           type: 'value',
-          axisLabel: {
-            color: this.isDark ? '#ccc' : '#333'
-          }
+          axisLabel: { color: '#ffffff' }
         },
         yAxis: {
           type: 'category',
@@ -123,7 +132,7 @@ export default {
           axisLabel: {
             formatter: (value, idx) => `{img${idx}|} ${value}`,
             rich,
-            color: this.isDark ? '#ccc' : '#333'
+            color: '#ffffff'
           },
           axisTick: { show: false }
         },
@@ -131,38 +140,79 @@ export default {
           name: dimInfo.label,
           type: 'bar',
           data: sorted.map(p => ({ name: p.name, value: p[dimKey] })),
-          itemStyle: {
-            color: '#5470c6'
-          },
+          itemStyle: { color: '#3BA272' },
           label: {
             show: true,
             position: 'right',
             color: this.isDark ? '#eee' : '#333'
           }
         }]
-      });
-      window.addEventListener('resize', () => {
-        chart.resize();
-      });
-      this.$store.dispatch('chart/setChart', {
-        id:chart.getOption().title[0].text,
-        option: chart.getOption(),
-        type:chart.getOption().series[0].type
-      });
-    }
+      })
 
+      window.addEventListener('resize', () => chart.resize())
+
+      this.$store.dispatch('chart/setChart', {
+        id: chart.getOption().title[0]?.text || dimInfo.label,
+        option: chart.getOption(),
+        type: 'bar'
+      })
+    }
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.$store.dispatch('chart/clearCharts')
   }
-};
+}
 </script>
 
-<style scoped>
-.app-container {
+<style lang="scss" scoped>
+  .app-container {
+  min-height: 100vh;
+  background-color: rgba(0, 10, 30, 0.85);
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+                    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+  background-attachment: fixed;
   padding: 20px;
+  .chart-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bolder;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+  }
 }
-.chart-container {
-  margin-bottom: 30px;
+.toolbar {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.chart-box {
+  flex: 1 1 calc(50% - 20px);
+  height: 45vh;
+  min-width: 400px;
+  background-color: rgba(10, 10, 30, 0.85);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.12);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.chart-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 </style>

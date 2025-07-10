@@ -55,17 +55,11 @@
 </template>
 
 <script>
-import StatsChart from '@/views/system/stats/statsChart'
-import PlayersDist from '@/views/system/playersdist/index'
 import { playerPos,top10Players,playerNumByTeamCity,PlayerDist } from '@/api/system/players'
 import { teams } from '@/api/system/stats';
 import * as echarts from 'echarts'
 import axios from 'axios'
 export default {
-   components: {
-    StatsChart,
-    PlayersDist
-  },
   data() {
     return {
       playersPosData: [],

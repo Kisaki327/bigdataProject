@@ -1,5 +1,5 @@
 <template>
-  <div class="race-container">
+  <div class="app-container">
     <!-- 控制区 -->
     <el-row :gutter="20" style="margin-bottom: 20px;">
       <el-col :span="6">
@@ -42,11 +42,11 @@
     <el-divider/>
     <!-- 图表区 -->
     <el-row :gutter="20">
-      <el-col :span="12">
-        <div ref="dynamicBarChart" style="width:100%;height:500px;"></div>
+      <el-col :span="24">
+        <div ref="dynamicBarChart"  class="chart-box" ></div>
       </el-col>
-      <el-col :span="12">
-        <div ref="seasonBarChart" style="width:100%;height:500px;"></div>
+      <el-col :span="24">
+        <div ref="seasonBarChart"  class="chart-box" ></div>
       </el-col>
     </el-row>
   </div>
@@ -164,6 +164,34 @@ export default {
 
       const option = {
         title: { text: `${this.selectedYear} 生涯得分前10`, left: 'center' },
+        toolbox: {
+          show: true,
+          orient: 'horizontal',
+          left: 'right',
+          top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
+          }
+        },
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
         grid: { left: '5%', right: '4%', bottom: '3%', containLabel: true },
         xAxis: { type: 'value', name: '得分', max: 'dataMax' },
@@ -225,6 +253,34 @@ export default {
       const scores = data.map(p => Number(p.points));
 
       const option = {
+        toolbox: {
+          show: true,
+          orient: 'horizontal',
+          left: 'right',
+          top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
+          }
+        },
         title: { text: `${this.selectedSeasonYear} 赛季得分前10`, left: 'center' },
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
         grid: { left: '5%', right: '4%', bottom: '3%', containLabel: true },
@@ -297,7 +353,32 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.race-container {
+.app-container {
+ min-height: 100vh;
+  background-color: rgba(0, 10, 30, 0.85);
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+                    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+  background-attachment: fixed;
   padding: 20px;
+}
+.chart-box {
+  flex: 1 1 calc(50% - 20px);
+  height: 45vh;
+  min-width: 400px;
+  background-color: rgba(10, 10, 30, 0.85);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.12);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.chart-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 </style>

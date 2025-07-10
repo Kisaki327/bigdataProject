@@ -244,14 +244,32 @@ export default {
           tooltip: {},
           toolbox: {
           show: true,
+          orient: 'horizontal',
           left: 'right',
           top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
           feature: {
-            dataView: { readOnly: false },
-            restore: {},
-            saveAsImage: {}
-              }
-           },
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
+          }
+        },
           radar: {
             indicator: [
               { name: '总场数', max: 80 },
@@ -295,14 +313,32 @@ export default {
           },
           toolbox: {
           show: true,
+          orient: 'horizontal',
           left: 'right',
           top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
           feature: {
-            dataView: { readOnly: false },
-            restore: {},
-            saveAsImage: {}
-              }
-           },
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
+          }
+        },
           tooltip: {
             trigger: 'axis'
           },

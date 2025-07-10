@@ -95,7 +95,6 @@ export default {
             avatar: item.avatar,
             teamname: item.teamname,
             logo: item.logo,
-            // 先空数组，真实数据
             score: [],
             assist: [],
             rebound: [],
@@ -105,7 +104,6 @@ export default {
             mins: [],
             steals: [],
             fgpctStr: [],
-            // 预测数据单独存，后面插入
             predScore: null,
             predAssist: null,
             predRebound: null,
@@ -118,7 +116,6 @@ export default {
           }
         }
         if (item.dataType === 0) {
-          // 预测数据，赋值
           grouped[pid].predScore = item.points
           grouped[pid].predAssist = item.assists
           grouped[pid].predRebound = item.rebs
@@ -141,7 +138,6 @@ export default {
         }
       })
       this.playerDatabase = Object.values(grouped).map(p => {
-        // 把预测数据push到数组最后
         if (p.predScore !== null) p.score.push(p.predScore)
         if (p.predAssist !== null) p.assist.push(p.predAssist)
         if (p.predRebound !== null) p.rebound.push(p.predRebound)
@@ -218,9 +214,36 @@ export default {
         },
         legend: { data: ['得分', '助攻', '篮板', '三分出手', '三分命中率', '出手次数', '上场时间', '抢断', '投篮命中率'] },
         grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
-        toolbox: { feature: { saveAsImage: {} } },
-        xAxis: { type: 'category', boundaryGap: false, data: xData },
-        yAxis: { type: 'value' },
+        toolbox: {
+          show: true,
+          orient: 'horizontal',
+          left: 'right',
+          top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
+          }
+        },
+        xAxis: { type: 'category', boundaryGap: false, data: xData ,color: '#ffffff' },
+        yAxis: { type: 'value' ,color: '#ffffff'},
         series: [
           { name: '得分', type: 'line', data: this.prepareSeriesData(playerData.score, '#5470C6') },
           { name: '助攻', type: 'line', data: this.prepareSeriesData(playerData.assist, '#91CC75') },
@@ -280,6 +303,14 @@ export default {
   height: calc(100vh - 84px);
   padding: 20px;
   box-sizing: border-box;
+  background-color: rgba(0, 10, 30, 0.85);
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+                    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+  background-attachment: fixed;
 }
 .control-bar {
   flex: 0 0 auto;
@@ -344,8 +375,15 @@ export default {
   margin-right: 6px;
 }
 .chart-container {
-  width: 100%;
-  height: 750px;
+  flex: 1 1 calc(50% - 20px);
+  height: 45vh;
+  min-width: 400px;
+  background-color: rgba(238, 244, 244, 0.5);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.12);
+  transition: transform 0.3s ease;
+  position: relative;
 }
 .player-list-grid {
   position: absolute;

@@ -157,50 +157,107 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
   background-image: url("../assets/images/login-background.png");
-  background-size: cover;
-  box-shadow: #bfbfbf 0 0 8px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+  }
 }
+
 .title {
-  margin: 0px auto 30px auto;
+  margin: 0 auto 30px auto;
   text-align: center;
-  color: #707070;
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px #000;
 }
 
 .login-form {
-  border-radius: 6px;
-  background: rgba($color:#ffffff, $alpha: 0.7),linear-gradient(rgba(#ffffff, 0.5), rgba(#2fe8e2, 0.5));
-  width: 400px;
-  padding: 25px 25px 5px 25px;
+  position: relative;
   z-index: 1;
-  box-shadow: #bfbfbf 0 0 8px;
+  width: 420px;
+  padding: 30px 30px 15px 30px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+
   .el-input {
-    height: 38px;
+    height: 42px;
+
     input {
-      height: 38px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 6px;
+      padding-left: 36px;
     }
   }
+
   .input-icon {
-    height: 39px;
-    width: 14px;
-    margin-left: 2px;
+    height: 42px;
+    width: 16px;
+    margin-left: 6px;
+    color: #2e74ff;
   }
 }
-.login-tip {
-  font-size: 13px;
-  text-align: center;
-  color: #bfbfbf;
+
+.el-form-item {
+  margin-bottom: 22px;
 }
+
+.el-checkbox {
+  color: #eee;
+  margin: 0px 0px 25px 0px;
+}
+
+.el-button {
+  border-radius: 6px;
+  background-color: #2e74ff;
+  border-color: #2e74ff;
+  font-weight: bold;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #1c5ed6;
+    border-color: #1c5ed6;
+  }
+}
+
+.link-type {
+  color: #f2f2f2;
+  font-size: 13px;
+  margin-top: 10px;
+  text-decoration: underline;
+}
+
 .login-code {
   width: 33%;
   height: 38px;
   float: right;
+
   img {
+    height: 100%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
     cursor: pointer;
-    vertical-align: middle;
   }
 }
+
+.login-code-img {
+  height: 38px;
+}
+
 .el-login-footer {
   height: 40px;
   line-height: 40px;
@@ -208,12 +265,9 @@ export default {
   bottom: 0;
   width: 100%;
   text-align: center;
-  color: #fff;
+  color: #ddd;
   font-family: Arial;
   font-size: 12px;
   letter-spacing: 1px;
-}
-.login-code-img {
-  height: 38px;
 }
 </style>

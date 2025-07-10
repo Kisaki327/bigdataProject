@@ -1,16 +1,15 @@
 export function extractChartSummary(option) {
   if (!option || typeof option !== 'object') return '无效的 ECharts 配置';
-
+      console.log(option);
   const result = {
     图表类型: new Set(),
-    标题: option.title?.text || '无标题',
+    标题: option.title?.text || option.title[0].text || '无标题',
     数据系列: [],
     坐标轴: {},
   };
 
   const seriesArr = Array.isArray(option.series) ? option.series : [option.series];
 
-  // 根据图表类型，定义每种类型提取的字段逻辑
   seriesArr.forEach((series, idx) => {
     const type = series.type || 'unknown';
     result.图表类型.add(type);
@@ -30,6 +29,8 @@ export function extractChartSummary(option) {
         seriesInfo.数据 = series.data ? series.data : [];
         if (option.xAxis?.name) result.坐标轴.x轴名称 = option.xAxis.name;
         if (option.yAxis?.name) result.坐标轴.y轴名称 = option.yAxis.name;
+        if (option.xAxis[0]?.name) result.坐标轴.x轴名称 = option.xAxis[0].name;
+        if (option.yAxis[0]?.name) result.坐标轴.y轴名称 = option.yAxis[0].name;
         break;
       }
       case 'scatter': {

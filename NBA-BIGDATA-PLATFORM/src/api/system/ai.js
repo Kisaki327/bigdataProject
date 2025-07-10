@@ -12,14 +12,15 @@ export function explain(content) {
   })
 }
 
-export function wxyyExplain(content) {
+export function wxyyExplain(content,chartId) {
   content = extractChartSummary(content)
   return request({
     url: '/system/ai/wxyyExplain',
     method: 'post',
      timeout: 60000,
     data: {
-      content: '请帮我解读这个echarts图表,图表的option如下：' + JSON.stringify(content)
+      content: '请帮我解读这个echarts图表,图表的option如下：' + JSON.stringify(content),
+      chartId: chartId
     }
   })
 }

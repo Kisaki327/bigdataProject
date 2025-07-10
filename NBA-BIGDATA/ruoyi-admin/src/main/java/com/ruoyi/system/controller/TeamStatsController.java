@@ -2,16 +2,15 @@ package com.ruoyi.system.controller;
 
 import java.util.List;
 import jakarta.servlet.http.HttpServletResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -23,82 +22,62 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 球队信息Controller
- * 
- * @author ruoyi
- * @date 2025-06-27
+ * 提供球队基本资料的增删改查功能
  */
 @RestController
 @RequestMapping("/system/teamstats")
-public class TeamStatsController extends BaseController
-{
+@Tag(name = "球队信息接口", description = "提供球队基础信息管理接口")
+public class TeamStatsController extends BaseController {
+
     @Autowired
     private ITeamStatsService teamStatsService;
 
-    /**
-     * 查询球队信息列表
-     */
-//    @PreAuthorize("@ss.hasPermi('system:stats:list')")
+    @Operation(summary = "查询球队信息列表")
     @GetMapping("/list")
-    public TableDataInfo list(TeamStats teamStats)
-    {
+    public TableDataInfo list(TeamStats teamStats) {
         startPage();
         List<TeamStats> list = teamStatsService.selectTeamStatsList(teamStats);
         return getDataTable(list);
     }
 
-    /**
-     * 导出球队信息列表
-     */
+    @Operation(summary = "导出球队信息")
     @PreAuthorize("@ss.hasPermi('system:stats:export')")
     @Log(title = "球队信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, TeamStats teamStats)
-    {
+    public void export(HttpServletResponse response, TeamStats teamStats) {
         List<TeamStats> list = teamStatsService.selectTeamStatsList(teamStats);
-        ExcelUtil<TeamStats> util = new ExcelUtil<TeamStats>(TeamStats.class);
+        ExcelUtil<TeamStats> util = new ExcelUtil<>(TeamStats.class);
         util.exportExcel(response, list, "球队信息数据");
     }
 
-    /**
-     * 获取球队信息详细信息
-     */
+    @Operation(summary = "获取球队详情")
     @PreAuthorize("@ss.hasPermi('system:stats:query')")
-    @GetMapping(value = "/{teamId}")
-    public AjaxResult getInfo(@PathVariable("teamId") Long teamId)
-    {
+    @GetMapping("/{teamId}")
+    public AjaxResult getInfo(@Parameter(description = "球队ID") @PathVariable("teamId") Long teamId) {
         return success(teamStatsService.selectTeamStatsByTeamId(teamId));
     }
 
-    /**
-     * 新增球队信息
-     */
+    @Operation(summary = "新增球队信息")
     @PreAuthorize("@ss.hasPermi('system:stats:add')")
     @Log(title = "球队信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody TeamStats teamStats)
-    {
+    public AjaxResult add(@RequestBody TeamStats teamStats) {
         return toAjax(teamStatsService.insertTeamStats(teamStats));
     }
 
-    /**
-     * 修改球队信息
-     */
+    @Operation(summary = "修改球队信息")
     @PreAuthorize("@ss.hasPermi('system:stats:edit')")
     @Log(title = "球队信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody TeamStats teamStats)
-    {
+    public AjaxResult edit(@RequestBody TeamStats teamStats) {
         return toAjax(teamStatsService.updateTeamStats(teamStats));
     }
 
-    /**
-     * 删除球队信息
-     */
+    @Operation(summary = "删除球队信息")
     @PreAuthorize("@ss.hasPermi('system:stats:remove')")
     @Log(title = "球队信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{teamIds}")
-    public AjaxResult remove(@PathVariable Long[] teamIds)
-    {
+    @DeleteMapping("/{teamIds}")
+    public AjaxResult remove(@Parameter(description = "球队ID数组") @PathVariable Long[] teamIds) {
         return toAjax(teamStatsService.deleteTeamStatsByTeamIds(teamIds));
     }
 }

@@ -2,33 +2,24 @@
   <div class="app-container home">
     <el-row :gutter="20">
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>NBA球赛大数据分析平台</h2>
+        <h2>NBA 大数据分析平台</h2>
         <p>
-          NBA球赛大数据分析平台是一个用于收集、存储、处理并可视化NBA比赛相关数据的系统。该平台结合前端界面、后端服务与数据分析工具，能够对球员表现、球队战绩等多维度信息进行展示，旨在为球迷提供高效、直观的数据展示。
+          本平台致力于对 NBA 球赛相关数据进行收集、处理和可视化展示，涵盖球员表现分析、球队战绩对比、比赛结果预测等多个方面。
         </p>
         <p>
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-cloudy"
-            plain
-            @click="goTarget('https://gitee.com/y_project/RuoYi-Vue')"
-            >访问码云</el-button
-          >
-          <el-button
-            size="mini"
-            icon="el-icon-s-home"
-            plain
-            @click="goTarget('http://ruoyi.vip')"
-            >访问主页</el-button
-          >
+          通过前端图表组件与后端大数据服务的结合，帮助球迷、分析师和研究人员以更直观的方式洞察比赛趋势与球员表现。
+        </p>
+        <p>
+          当前版本：<b>{{ version }}</b>
         </p>
       </el-col>
 
       <el-col :sm="24" :lg="12" style="padding-left: 50px">
       </el-col>
     </el-row>
+
     <el-divider />
+
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
@@ -37,11 +28,17 @@
           </div>
           <div class="body">
             <p>
-              <i class="el-icon-s-promotion"></i> 官网：<el-link
-                href="http://www.ruoyi.vip"
-                target="_blank"
-                >http://www.ruoyi.vip</el-link
-              >
+              <i class="el-icon-user"></i> 项目负责人：何远超
+            </p>
+            <p>
+              <i class="el-icon-message"></i> 邮箱：
+              <el-link href="mailto:3022771982@qq.com">3022771982@qq.com</el-link>
+            </p>
+            <p>
+              <i class="el-icon-link"></i> 项目地址：
+              <el-link href="https://github.com/Kisaki327/bigdataProject" target="_blank">
+                GitHub 项目仓库
+              </el-link>
             </p>
           </div>
         </el-card>
@@ -55,16 +52,15 @@ export default {
   name: "Index",
   data() {
     return {
-      // 版本号
-      version: "3.9.0"
-    }
+      version: "1.0.0"
+    };
   },
   methods: {
     goTarget(href) {
-      window.open(href, "_blank")
+      window.open(href, "_blank");
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -88,16 +84,13 @@ export default {
   ul {
     padding: 0;
     margin: 0;
+    list-style-type: none;
   }
 
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
-
-  ul {
-    list-style-type: none;
-  }
 
   h4 {
     margin-top: 0px;
@@ -130,4 +123,3 @@ export default {
   }
 }
 </style>
-

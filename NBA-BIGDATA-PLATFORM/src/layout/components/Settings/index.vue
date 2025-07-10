@@ -107,7 +107,7 @@
 
 <script>
 import ThemePicker from '@/components/ThemePicker'
-import { explain,wxyyExplain} from '@/api/system/ai'
+import { wxyyExplain} from '@/api/system/ai'
 
 export default {
   components: { ThemePicker },
@@ -229,6 +229,7 @@ export default {
     },
     closeSetting(){
       this.showSettings = false
+      this.aiResult = null
     },
     saveSetting() {
       this.$modal.loading("正在保存到本地，请稍候...")
@@ -256,12 +257,11 @@ export default {
     async analyzeChart(){
       this.aiResult = null
       this.loading = true
-      const res = await wxyyExplain(this.chartList[this.selectedChartId].option)
+      const res = await wxyyExplain(this.chartList[this.selectedChartId].option,this.selectedChartId)
       this.aiResult = res.msg
       this.loading = false
     }
   },
-
 }
 </script>
 

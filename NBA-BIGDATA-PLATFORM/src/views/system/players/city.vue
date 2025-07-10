@@ -117,6 +117,34 @@ export default {
       this.chart.setOption({
         title: { text: 'NBA球员数量分州统计', left: 'center' },
         tooltip: { trigger: 'item', formatter: '{b}: {c} 人' },
+        toolbox: {
+          show: true,
+          orient: 'horizontal',
+          left: 'right',
+          top: 'top',
+          itemSize: 20,
+          iconStyle: {
+            borderColor: '#333'
+          },
+          feature: {
+            saveAsImage: {
+              show: true,
+              title: '保存图片'
+            },
+            dataView: {
+              show: true,
+              title: '查看数据',
+              readOnly: true
+            },
+            restore: {
+              show: true,
+              title: '还原'
+            },
+            dataZoom: {
+              show: true
+            }
+          }
+        },
         visualMap: {
           min: 0,
           max: Math.max(...seriesData.map(d => d.value)),
@@ -176,5 +204,14 @@ export default {
 </script>
 
 <style scoped>
-.app-container { padding: 16px; }
+.app-container { min-height: 100vh;
+  background-color: rgba(0, 10, 30, 0.85);
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+                    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+  background-attachment: fixed;
+  padding: 20px; }
 </style>

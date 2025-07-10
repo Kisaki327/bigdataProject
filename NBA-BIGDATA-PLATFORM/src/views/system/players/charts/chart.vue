@@ -14,7 +14,6 @@ export default {
 
     myChart.showLoading()
 
-    // 使用本地路径，public目录下 USA.json
     axios.get('/sources/USA.json').then(response => {
       const usaJson = response.data
       myChart.hideLoading()
@@ -134,6 +133,15 @@ export default {
 
 <style scoped>
 #main {
-  margin-top: 20px;
+  min-height: 100vh;
+  background-color: rgba(0, 10, 30, 0.85);
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+                    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+  background-attachment: fixed;
+  padding: 20px;
 }
 </style>
